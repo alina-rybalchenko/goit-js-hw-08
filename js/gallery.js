@@ -69,25 +69,25 @@ const galleryEl = document.querySelector('.gallery');
 galleryEl.innerHTML = images
   .map(
     ({ preview, original, description }) => `
-    <li class="gallery-item">
-      <a class="gallery-link" href="${original}">
-        <img class="gallery-image" src="${preview}" data-source="${original}" alt="${description}" loading="lazy"/>
-      </a>
-    </li>`
+      <li class="gallery-item">
+        <a class="gallery-link" href="${original}">
+          <img class="gallery-image" src="${preview}" data-source="${original}" alt="${description}" loading="lazy"/>
+        </a>
+      </li>`
   )
   .join('');
 
-// Делегування кліку (один слухач!)
 galleryEl.addEventListener('click', event => {
   const target = event.target;
-  if (target.nodeName !== 'IMG') return; 
+  if (target.nodeName !== 'IMG') return;
   event.preventDefault();
 
-  const largeSrc = target.dataset.source;
-  const altText = target.alt;
+  // 1. Вивід у консоль
+  console.log(target.dataset.source);
 
+  // 2. Відкриття модалки
   const instance = basicLightbox.create(
-    `<img class="modal-image" src="${largeSrc}" alt="${altText}"/>`
+    `<img class="modal-image" src="${target.dataset.source}" alt="${target.alt}"/>`
   );
 
   instance.show();
@@ -99,6 +99,5 @@ galleryEl.addEventListener('click', event => {
       document.removeEventListener('keydown', onEsc);
     }
   };
-
   document.addEventListener('keydown', onEsc);
 });
